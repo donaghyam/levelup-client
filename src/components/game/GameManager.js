@@ -38,15 +38,23 @@ export const createGame = (game) => {
         .then(response => response.json())
 }
 
-export const updateGame = (game) => {
-    const fetchOption = {
+export const updateGame = (game, gameId) => {
+    return fetch(`http://localhost:8000/games/${gameId}`, {
         method: "PUT",
         headers: {
             "Authorization": `Token ${localStorage.getItem("lu_token")}`,
             "Content-Type": "application/JSON"
         },
         body: JSON.stringify(game)
-    }
-    return fetch("http://localhost:8000/games", fetchOption)
-        .then(response => response.json())
+    })
+    .then(getGames())
+}
+
+export const deleteGame = (gameId) => {
+    return fetch(`http://localhost:8000/games/${gameId}`, {
+        method: "DELETE",
+        headers:{
+            "Authorization": `Token ${localStorage.getItem("lu_token")}`
+        }
+    })
 }

@@ -7,7 +7,6 @@ export const UpdateGame = () => {
     const history = useHistory()
     const [gameTypes, setGameTypes] = useState([])
     const [currentGame, setCurrentGame] = useState({})
-    const [updatedGame, setUpdatedGame] = useState({})
     const {id} = useParams()
 
 
@@ -28,13 +27,12 @@ export const UpdateGame = () => {
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="title">Title: </label>
-                    <input type="text" name="title" default={currentGame.title} required autoFocus className="form-control"
-                        value={currentGame.title}
+                    <input type="text" name="title" defaultValue={currentGame.title} required autoFocus className="form-control"
                         onChange={
                             (event) => {
                                 const copy = {...currentGame}
                                 copy.title = event.target.value
-                                setUpdatedGame(copy)
+                                setCurrentGame(copy)
                         }
                     }
                     />
@@ -44,13 +42,12 @@ export const UpdateGame = () => {
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="maker">Maker: </label>
-                    <input type="text" name="maker" default={currentGame.maker} required autoFocus className="form-control"
-                        value={currentGame.maker}
+                    <input type="text" name="maker" defaultValue={currentGame.maker} required autoFocus className="form-control"
                         onChange={
                             (event) => {
-                                const copy = {...currentGame}
+                                const copy = {...currentGame}  
                                 copy.maker = event.target.value
-                                setUpdatedGame(copy)
+                                setCurrentGame(copy)
                         }
                     }
                     />
@@ -60,13 +57,12 @@ export const UpdateGame = () => {
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="number_of_players">Number of players: </label>
-                    <input type="text" name="number_of_players" default={currentGame.number_of_players} required autoFocus className="form-control"
-                        value={currentGame.number_of_players}
+                    <input type="text" name="number_of_players" defaultValue={currentGame.number_of_players} required autoFocus className="form-control"
                         onChange={
                             (event) => {
                                 const copy = {...currentGame}
                                 copy.number_of_players = event.target.value
-                                setUpdatedGame(copy)
+                                setCurrentGame(copy)
                         }
                     }
                     />
@@ -79,7 +75,7 @@ export const UpdateGame = () => {
                             (event) => {
                                 const copy = {...currentGame}
                                 copy.skill_level = event.target.value
-                                setUpdatedGame(copy)
+                                setCurrentGame(copy)
                         }
                     }>
                     <option value={currentGame.skill_level} id="skill_level">{currentGame.skill_level}</option>
@@ -96,7 +92,7 @@ export const UpdateGame = () => {
                             (event) => {
                                 const copy = {...currentGame}
                                 copy.game_type = event.target.value
-                                setUpdatedGame(copy)
+                                setCurrentGame(copy)
                         }
                     }>
                     <option value={currentGame.game_type?.id} id="gameType">{currentGame.game_type?.label}</option>
@@ -116,15 +112,15 @@ export const UpdateGame = () => {
                     evt.preventDefault()
 
                     const game = {
-                        maker: updatedGame.maker,
-                        title: updatedGame.title,
-                        number_of_players: parseInt(updatedGame.number_of_players),
-                        skill_level: updatedGame.skill_level,
-                        game_type: updatedGame.game_type_id
+                        maker: currentGame.maker,
+                        title: currentGame.title,
+                        number_of_players: parseInt(currentGame.number_of_players),
+                        skill_level: currentGame.skill_level,
+                        game_type: parseInt(currentGame.game_type)
                     }
 
                     // Send POST request to your API
-                    updateGame(game)
+                    updateGame(game, id)
                         .then(() => history.push("/games"))
                 }}
                 className="btn btn-primary">Create</button>
